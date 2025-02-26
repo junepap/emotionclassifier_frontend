@@ -1,0 +1,134 @@
+Customer Emotion Analysis System​
+Overview
+Your task is to develop a Customer Emotion Analysis System that processes customer
+feedback to:
+●​ Extract emotions and assess their intensity.
+●​ Identify topics and subtopics within the feedback.
+●​ Calculate an engagement score (Adorescore) to measure overall sentiment.
+This system will enable businesses to better understand customer sentiment and take
+actionable steps to improve their services.
+Core Requirements
+1. Emotion Detection Engine
+Develop a system capable of:
+●​●​●​●​●​Identifying and classifying emotions across three activation levels (High, Medium,
+Low).
+Mapping customer text to emotional states (e.g., Joy, Serenity, Ecstasy).
+Calculating emotional intensity scores for each feedback instance.
+Handling multiple emotions within a single piece of feedback.
+Providing confidence scores for emotion classifications.
+2. Topic Analysis System
+Implement a mechanism that:
+●​●​●​●​●​Extracts main topics from feedback (e.g., Delivery, Quality, Clothes).
+Identifies subtopics within those main topics (e.g., Fast Delivery, Quick Delivery, Free
+Delivery).
+Ensures consistent topic/subtopic categorization across feedback.
+Maintains a topic hierarchy and captures relationships.
+Provides topic relevance scores to measure importance.
+3. Adorescore Calculation
+Develop a scoring system that:
+●​
+●​
+●​
+●​
+●​
+Computes an overall sentiment score (Adorescore) ranging from -100 to +100.
+Weighs different emotional factors to derive a balanced score.
+Incorporates topic relevance in the scoring calculation.
+Provides score breakdowns by topic for deeper insights.
+Tracks sentiment trends over time to measure progress.
+4. Analysis Integration
+Ensure seamless integration between components:
+●​
+●​
+●​
+●​
+●​
+Connect emotion detection with topic analysis.
+Map emotions to specific topics and subtopics.
+Generate theme-emotion correlation metrics.
+Calculate per-topic emotional distributions.
+Provide aggregated insights across dimensions.
+Deliverables
+1. Emotion Processing Module
+●​ Emotion classification system.
+●​ Activation level categorization.
+●​ Emotion intensity calculator.
+2. Topic Analysis Module
+●​ Topic extraction system.
+●​ Subtopic classifier.
+●​ Topic hierarchy manager.
+3. Scoring System
+●​ Adorescore calculation engine.
+●​ Score breakdown generator.
+●​ Trend analysis component.
+4. Documentation
+●​
+●​
+●​
+●​
+System architecture overview.
+Data flow diagrams.
+API specifications.
+Test cases and evaluation scenarios.
+Evaluation Criteria
+Your solution will be assessed based on:
+1. Accuracy
+●​ Emotion detection precision.
+●​ Topic classification reliability.
+●​ Scoring system consistency.
+2. Scalability
+●​ Ability to process large volumes of feedback.
+●​ Efficient resource utilization and processing speed.
+3. Usability
+●​●​●​Clear, structured output.
+Interpretable insights for decision-making.
+Actionable recommendations for businesses.
+4. Innovation
+●​●​●​Novel approaches to emotion detection.
+Creative methodologies for topic analysis.
+Unique and effective sentiment scoring techniques.
+Constraints
+●​
+●​
+●​
+●​
+●​
+Must process text in real-time.
+Should support multiple languages.
+Must maintain topic consistency across feedback.
+Should be adaptable to different industries.
+Must provide confidence scores for all classifications.
+Sample Data Format
+Input Text:
+"The delivery was incredibly fast and the quality was amazing! However, one of the
+clothing items didn't fit well."
+Expected JSON Output:
+{
+"emotions": {
+"primary": {
+"emotion": "Joy",
+"activation": "Medium",
+"intensity": 0.8
+},
+"secondary": {
+"emotion": "Disappointment",
+"activation": "Low",
+"intensity": 0.3
+}
+},
+"topics": {
+"main": ["Delivery", "Quality", "Clothes"],
+"subtopics": {
+"Delivery": ["Fast Delivery"],
+"Clothes": ["Fit"]
+}
+},
+"adorescore": {
+"overall": 64,
+"breakdown": {
+"Delivery": 85,
+"Quality": 78,
+"Clothes": 30
+}
+}
+}
