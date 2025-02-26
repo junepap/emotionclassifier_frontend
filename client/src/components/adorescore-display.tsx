@@ -1,5 +1,8 @@
 import type { Adorescore } from "@shared/schema";
 import { Progress } from "@/components/ui/progress";
+import { Card } from "@/components/ui/card";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { format } from 'date-fns';
 
 interface AdorescoreDisplayProps {
   adorescore: Adorescore;
@@ -18,37 +21,74 @@ export default function AdorescoreDisplay({ adorescore }: AdorescoreDisplayProps
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold">Adorescore</h2>
-        <div className="mt-2 space-y-2">
-          <div className="flex justify-between">
-            <span className="font-medium">Overall Score</span>
-            <span>{adorescore.overall}</span>
+        <h2 className="text-xl font-semibold mb-2">Adorescore</h2>
+        <p className="text-sm text-muted-foreground">
+          Overall sentiment score with topic breakdown and historical trend
+        </p>
+      </div>
+
+      <Card className="p-4">
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="font-medium text-lg">Overall Score</span>
+            <span className="text-2xl font-semibold">{adorescore.overall}</span>
           </div>
           <Progress 
             value={normalizedScore} 
-            className={`h-2 ${getScoreColor(normalizedScore)}`}
+            className={`h-3 ${getScoreColor(normalizedScore)}`}
           />
         </div>
-      </div>
+      </Card>
 
-      <div className="space-y-4">
-        <h3 className="font-medium">Score Breakdown</h3>
-        {Object.entries(adorescore.breakdown).map(([topic, score]) => {
-          const normalizedTopicScore = (score + 100) / 2;
-          return (
-            <div key={topic} className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>{topic}</span>
-                <span>{score}</span>
-              </div>
-              <Progress 
-                value={normalizedTopicScore} 
-                className={`h-1.5 ${getScoreColor(normalizedTopicScore)}`}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {adorescore.trend && adorescore.trend.length > 0 && (
+        <Card className="p-4">
+          <h3 className="font-medium mb-4">Score Trend</h3>
+          <div className="h-[200px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={adorescore.trend}>
+                <XAxis 
+                  dataKey="timestamp" 
+                  tickFormatter={(value) => format(new Date(value), 'MMM d')}
+                />
+                <YAxis domain={[-100, 100]} />
+                <Tooltip 
+                  labelFormatter={(value) => format(new Date(value), 'MMM d, yyyy')}
+                  formatter={(value: number) => [value, 'Score']}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="score" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+      )}
+
+      <Card className="p-4">
+        <h3 className="font-medium mb-4">Score Breakdown</h3>
+        <div className="space-y-4">
+          {Object.entries(adorescore.breakdown)
+            .sort(([, a], [, b]) => b - a)
+            .map(([topic, score]) => {
+              const normalizedTopicScore = (score + 100) / 2;
+              return (
+                <div key={topic} className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="font-medium">{topic}</span>
+                    <span>{score}</span>
+                  </div>
+                  <Progress 
+                    value={normalizedTopicScore} 
+                    className={`h-2 ${getScoreColor(normalizedTopicScore)}`}
+                  />
+                </div>
+              );
+            })}
+        </div>
+      </Card>
     </div>
   );
 }
